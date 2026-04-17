@@ -1,6 +1,7 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
+import { NextResponse } from "next/server";
 import { canUseLocalStore } from "@/lib/admin-store";
 import { db, hasCoreTables, isDatabaseConfigured } from "@/lib/db";
 import { signInSchema } from "@/lib/validations";
@@ -88,6 +89,30 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
+    authorized({ auth, request }) {
+      const { pathname } = request.nextUrl;
+      const isAdminPage = pathname.startsWith("/admin");
+      const isAdminApi = pathname.startsWith("/api/admin");
+
+      if (!isAdminPage && !isAdminApi) {
+        return true;
+      }
+
+      if (auth?.user) {
+        return true;
+      }
+
+      if (isAdminApi) {
+        return NextResponse.json(
+          { error: "Authentication required." },
+          { status: 401 },
+        );
+      }
+
+      const signInUrl = new URL("/auth/sign-in", request.nextUrl.origin);
+      signInUrl.searchParams.set("callbackUrl", request.nextUrl.pathname);
+      return NextResponse.redirect(signInUrl);
+    },
     jwt({ token, user }) {
       if (user) {
         token.role = user.role;
