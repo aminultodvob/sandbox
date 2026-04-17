@@ -3,6 +3,8 @@ import {
   addFallbackApplicationEmail,
   addFallbackApplicationNote,
   assignFallbackCohort,
+  canUseLocalStore,
+  createInitialStore,
   getAdminStore,
   getFallbackApplication,
   getFallbackApplications,
@@ -13,6 +15,10 @@ import {
   type AdminApplicationStatus,
 } from "@/lib/admin-store";
 import { db, hasCoreTables, isDatabaseConfigured, isMissingTableError } from "@/lib/db";
+
+function getStaticStore() {
+  return createInitialStore();
+}
 
 function mapFallbackSummary(applications: Awaited<ReturnType<typeof getFallbackApplications>>) {
   const pending = applications.filter((item) =>
@@ -57,6 +63,10 @@ function mapFallbackSummary(applications: Awaited<ReturnType<typeof getFallbackA
 
 export async function getDashboardSummary() {
   if (!isDatabaseConfigured() || !(await hasCoreTables())) {
+    if (!canUseLocalStore()) {
+      return mapFallbackSummary(getStaticStore().applications);
+    }
+
     return mapFallbackSummary(await getFallbackApplications());
   }
 
@@ -120,6 +130,24 @@ export async function getDashboardSummary() {
 
 export async function getApplicationRows() {
   if (!isDatabaseConfigured() || !(await hasCoreTables())) {
+    if (!canUseLocalStore()) {
+      return getStaticStore().applications.map((item) => ({
+        id: item.id,
+        referenceNumber: item.referenceNumber,
+        status: item.status,
+        trackName: item.trackName,
+        submittedAt: item.submittedAt,
+        applicant: {
+          fullName: item.applicant.fullName,
+          email: item.applicant.email,
+          phone: item.applicant.phone,
+          businessName: item.applicant.businessName,
+          city: item.applicant.city,
+        },
+        noteCount: item.notes.length,
+      }));
+    }
+
     return (await getFallbackApplications()).map((item) => ({
       id: item.id,
       referenceNumber: item.referenceNumber,
@@ -183,6 +211,10 @@ export async function getApplicationRows() {
 
 export async function getApplicationDetail(id: string) {
   if (!isDatabaseConfigured() || !(await hasCoreTables())) {
+    if (!canUseLocalStore()) {
+      return getStaticStore().applications.find((item) => item.id === id) ?? null;
+    }
+
     return getFallbackApplication(id);
   }
 
@@ -208,7 +240,7 @@ export async function getApplicationDetail(id: string) {
 }
 
 export async function getAdminCommunicationsData() {
-  const store = await getAdminStore();
+  const store = canUseLocalStore() ? await getAdminStore() : getStaticStore();
   return {
     templates: store.emailTemplates,
     recentEmails: store.applications.flatMap((application) =>
@@ -222,12 +254,12 @@ export async function getAdminCommunicationsData() {
 }
 
 export async function getAdminContentData() {
-  const store = await getAdminStore();
+  const store = canUseLocalStore() ? await getAdminStore() : getStaticStore();
   return store.siteContent;
 }
 
 export async function getAdminParticipantsData() {
-  const store = await getAdminStore();
+  const store = canUseLocalStore() ? await getAdminStore() : getStaticStore();
   return {
     cohorts: store.cohorts,
     participants: store.applications.filter((item) => item.status === "ACCEPTED"),
@@ -235,7 +267,7 @@ export async function getAdminParticipantsData() {
 }
 
 export async function getAdminSettingsData() {
-  const store = await getAdminStore();
+  const store = canUseLocalStore() ? await getAdminStore() : getStaticStore();
   return store.settings;
 }
 

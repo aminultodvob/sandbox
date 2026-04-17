@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { ApplicationStatus } from "@prisma/client";
-import { createFallbackApplication } from "@/lib/admin-store";
+import { canUseLocalStore, createFallbackApplication } from "@/lib/admin-store";
 import { db, hasCoreTables, isDatabaseConfigured, isMissingTableError } from "@/lib/db";
 import { sendStatusEmail } from "@/lib/email";
 import { createReferenceNumber } from "@/lib/utils";
@@ -94,8 +94,16 @@ export async function POST(request: Request) {
       );
       await createFallbackApplication(data, referenceNumber);
     }
-  } else {
+  } else if (canUseLocalStore()) {
     await createFallbackApplication(data, referenceNumber);
+  } else {
+    return NextResponse.json(
+      {
+        error:
+          "Application intake is not configured for production yet. Set up the database schema and redeploy.",
+      },
+      { status: 503 },
+    );
   }
 
   await sendStatusEmail({

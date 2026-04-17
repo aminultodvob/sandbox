@@ -151,6 +151,10 @@ export type AdminStore = {
 const DATA_DIR = path.join(process.cwd(), "data");
 const STORE_PATH = path.join(DATA_DIR, "admin-store.json");
 
+export function canUseLocalStore() {
+  return process.env.NODE_ENV !== "production";
+}
+
 function nowIso() {
   return new Date().toISOString();
 }
@@ -236,7 +240,7 @@ function createSeedApplication(
   } satisfies StoredApplication;
 }
 
-function createInitialStore(): AdminStore {
+export function createInitialStore(): AdminStore {
   return {
     applications: [
       createSeedApplication(
@@ -423,6 +427,10 @@ function createInitialStore(): AdminStore {
 }
 
 async function ensureStoreFile() {
+  if (!canUseLocalStore()) {
+    throw new Error("Local admin store is disabled in production.");
+  }
+
   await fs.mkdir(DATA_DIR, { recursive: true });
 
   try {
@@ -433,12 +441,20 @@ async function ensureStoreFile() {
 }
 
 export async function getAdminStore() {
+  if (!canUseLocalStore()) {
+    return createInitialStore();
+  }
+
   await ensureStoreFile();
   const raw = await fs.readFile(STORE_PATH, "utf8");
   return JSON.parse(raw) as AdminStore;
 }
 
 async function saveAdminStore(store: AdminStore) {
+  if (!canUseLocalStore()) {
+    throw new Error("Local admin store writes are disabled in production.");
+  }
+
   await fs.mkdir(DATA_DIR, { recursive: true });
   await fs.writeFile(STORE_PATH, JSON.stringify(store, null, 2), "utf8");
 }

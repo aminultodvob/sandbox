@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { canUseLocalStore } from "@/lib/admin-store";
+import { hasCoreTables, isDatabaseConfigured } from "@/lib/db";
 import { addAdminApplicationNote } from "@/lib/dashboard";
 
 const noteSchema = z.object({
@@ -11,6 +13,13 @@ export async function POST(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  if (!canUseLocalStore() && (!isDatabaseConfigured() || !(await hasCoreTables()))) {
+    return NextResponse.json(
+      { error: "Admin mutations require a configured production database." },
+      { status: 503 },
+    );
+  }
+
   const { id } = await params;
   const parsed = noteSchema.safeParse(await request.json());
 

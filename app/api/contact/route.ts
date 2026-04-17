@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { addFallbackContactInquiry } from "@/lib/admin-store";
+import { addFallbackContactInquiry, canUseLocalStore } from "@/lib/admin-store";
 import { db, hasCoreTables, isDatabaseConfigured, isMissingTableError } from "@/lib/db";
 import { contactSchema } from "@/lib/validations";
 
@@ -26,8 +26,16 @@ export async function POST(request: Request) {
 
       await addFallbackContactInquiry(parsed.data);
     }
-  } else {
+  } else if (canUseLocalStore()) {
     await addFallbackContactInquiry(parsed.data);
+  } else {
+    return NextResponse.json(
+      {
+        message:
+          "Contact intake is not configured for production yet. Set up the database schema and redeploy.",
+      },
+      { status: 503 },
+    );
   }
 
   return NextResponse.json({

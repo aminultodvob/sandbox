@@ -1,6 +1,6 @@
 # Sandbox Bangladesh
 
-Premium incubation ecosystem platform for `Sandbox Bangladesh` with a public conversion website, founder access application workflow, transactional email architecture, and a secure internal admin workspace.
+Premium incubation ecosystem platform for `Sandbox Bangladesh` with a public website, founder application flow, transactional email architecture, and an internal admin dashboard.
 
 ## Stack
 
@@ -11,7 +11,6 @@ Premium incubation ecosystem platform for `Sandbox Bangladesh` with a public con
 - NextAuth credentials auth
 - React Hook Form + Zod
 - Resend-compatible email layer
-- shadcn-style UI primitives + Radix building blocks
 
 ## Route Map
 
@@ -67,6 +66,7 @@ npm install
 DATABASE_URL=
 AUTH_SECRET=
 NEXTAUTH_URL=http://localhost:3000
+AUTH_TRUST_HOST=true
 RESEND_API_KEY=
 RESEND_FROM_EMAIL=
 ```
@@ -95,25 +95,54 @@ npm run prisma:seed
 npm run dev
 ```
 
-## Seeded Admin Access
+## Local Demo Admin
 
+Development-only fallback access:
+
+- Email: `admin@sandboxbd.com`
+- Password: `Admin@4321`
 - Email: `admin@sandbox.bd`
 - Password: `sandbox-admin-2026`
 
-If no database is configured, the same credentials still unlock the demo admin experience through the fallback auth path.
+This demo path is disabled in production.
 
-## Notes
+## Production Deployment
 
-- Public pages are content-rich and brand-aligned around a premium founder ecosystem, not an academic/course brand.
-- The founder application API saves submissions to Prisma when `DATABASE_URL` is available and still returns a polished flow when it is not.
-- Transactional email rendering is configured in `lib/email.tsx`; actual sends occur only when `RESEND_API_KEY` is present.
-- Admin pages currently include working structure, sample analytics fallback, and data hooks ready for deeper CRUD expansion.
+Production deployments on Vercel or Netlify should use the real Neon database and must not rely on the local filesystem fallback.
+
+Required production environment variables:
+
+- `DATABASE_URL`
+- `AUTH_SECRET`
+- `AUTH_TRUST_HOST=true`
+- `NEXTAUTH_URL` or your platform hostname setting
+- `RESEND_API_KEY`
+- `RESEND_FROM_EMAIL`
+
+Before deploying production:
+
+1. Run Prisma migrations against the production database:
+
+```bash
+npx prisma migrate deploy
+```
+
+2. Seed only if needed for initial admin or content setup:
+
+```bash
+npm run prisma:seed
+```
+
+3. Ensure at least one real `AdminUser` exists in the database.
+
+## Production Notes
+
+- Local fallback storage is development-only and is disabled in production.
+- Public submissions and admin mutations return clear `503` responses if production is missing the database schema.
+- `postinstall` runs `prisma generate`, which helps Vercel/Netlify builds produce the Prisma client reliably.
+- Node `>=20.19.0` is declared for better compatibility with the current toolchain.
 
 ## Verification
 
 - `npm run build`
 - `npm run lint`
-
-# sandbox
-
-# sandbox

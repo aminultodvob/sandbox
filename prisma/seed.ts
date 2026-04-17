@@ -4,15 +4,35 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
-  const passwordHash = await bcrypt.hash("sandbox-admin-2026", 12);
+  const primaryPasswordHash = await bcrypt.hash("Admin@4321", 12);
+  const legacyPasswordHash = await bcrypt.hash("sandbox-admin-2026", 12);
+
+  await prisma.adminUser.upsert({
+    where: { email: "admin@sandboxbd.com" },
+    update: {
+      name: "Sandbox Super Admin",
+      passwordHash: primaryPasswordHash,
+      role: "SUPER_ADMIN",
+    },
+    create: {
+      name: "Sandbox Super Admin",
+      email: "admin@sandboxbd.com",
+      passwordHash: primaryPasswordHash,
+      role: "SUPER_ADMIN",
+    },
+  });
 
   await prisma.adminUser.upsert({
     where: { email: "admin@sandbox.bd" },
-    update: {},
+    update: {
+      name: "Sandbox Super Admin",
+      passwordHash: legacyPasswordHash,
+      role: "SUPER_ADMIN",
+    },
     create: {
       name: "Sandbox Super Admin",
       email: "admin@sandbox.bd",
-      passwordHash,
+      passwordHash: legacyPasswordHash,
       role: "SUPER_ADMIN",
     },
   });

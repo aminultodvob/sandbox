@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { canUseLocalStore } from "@/lib/admin-store";
+import { hasCoreTables, isDatabaseConfigured } from "@/lib/db";
 import {
   getApplicationDetail,
   updateAdminApplicationStatus,
@@ -31,6 +33,13 @@ export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
+  if (!canUseLocalStore() && (!isDatabaseConfigured() || !(await hasCoreTables()))) {
+    return NextResponse.json(
+      { error: "Admin mutations require a configured production database." },
+      { status: 503 },
+    );
+  }
+
   const { id } = await params;
   const parsed = patchSchema.safeParse(await request.json());
 

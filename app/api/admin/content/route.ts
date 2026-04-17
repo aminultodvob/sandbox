@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { canUseLocalStore } from "@/lib/admin-store";
+import { hasCoreTables, isDatabaseConfigured } from "@/lib/db";
 import { getAdminContentData, updateAdminContent } from "@/lib/dashboard";
 
 const contentSchema = z.object({
@@ -57,6 +59,13 @@ export async function GET() {
 }
 
 export async function PATCH(request: Request) {
+  if (!canUseLocalStore() && (!isDatabaseConfigured() || !(await hasCoreTables()))) {
+    return NextResponse.json(
+      { error: "Admin mutations require a configured production database." },
+      { status: 503 },
+    );
+  }
+
   const parsed = contentSchema.safeParse(await request.json());
 
   if (!parsed.success) {
