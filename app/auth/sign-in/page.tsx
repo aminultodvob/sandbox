@@ -73,8 +73,8 @@ export default async function SignInPage({
             </Button>
           </form>
           <p className="text-sm leading-7 text-[var(--muted-strong)]">
-            Use a seeded database admin in production. Development fallback credentials work only
-            locally.
+            Use your configured admin credentials. Seeded database admins and fallback admin
+            credentials are both supported.
           </p>
         </CardContent>
       </Card>

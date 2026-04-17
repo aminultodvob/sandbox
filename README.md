@@ -95,16 +95,14 @@ npm run prisma:seed
 npm run dev
 ```
 
-## Local Demo Admin
+## Admin Login
 
-Development-only fallback access:
+Available credentials:
 
 - Email: `admin@sandboxbd.com`
 - Password: `Admin@4321`
 - Email: `admin@sandbox.bd`
 - Password: `sandbox-admin-2026`
-
-This demo path is disabled in production.
 
 ## Production Deployment
 
@@ -133,7 +131,7 @@ npx prisma migrate deploy
 npm run prisma:seed
 ```
 
-3. Ensure at least one real `AdminUser` exists in the database.
+3. Ensure at least one real `AdminUser` exists in the database if you want database-backed admin management.
 
 ## Production Notes
 

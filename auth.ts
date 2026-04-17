@@ -2,9 +2,25 @@ import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { NextResponse } from "next/server";
-import { canUseLocalStore } from "@/lib/admin-store";
 import { db, hasCoreTables, isDatabaseConfigured } from "@/lib/db";
 import { signInSchema } from "@/lib/validations";
+
+const fallbackAdmins = [
+  {
+    id: "demo-admin-primary",
+    name: "Sandbox Super Admin",
+    email: "admin@sandboxbd.com",
+    password: "Admin@4321",
+    role: "SUPER_ADMIN",
+  },
+  {
+    id: "demo-admin-legacy",
+    name: "Sandbox Super Admin",
+    email: "admin@sandbox.bd",
+    password: "sandbox-admin-2026",
+    role: "SUPER_ADMIN",
+  },
+] as const;
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   session: { strategy: "jwt" },
@@ -25,43 +41,22 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
           return null;
         }
 
+        const matchedFallbackAdmin = fallbackAdmins.find(
+          (admin) =>
+            admin.email === parsed.data.email &&
+            admin.password === parsed.data.password,
+        );
+
+        if (matchedFallbackAdmin) {
+          return {
+            id: matchedFallbackAdmin.id,
+            name: matchedFallbackAdmin.name,
+            email: matchedFallbackAdmin.email,
+            role: matchedFallbackAdmin.role,
+          };
+        }
+
         if (!isDatabaseConfigured() || !(await hasCoreTables())) {
-          if (!canUseLocalStore()) {
-            return null;
-          }
-
-          const fallbackAdmins = [
-            {
-              id: "demo-admin-primary",
-              name: "Sandbox Super Admin",
-              email: "admin@sandboxbd.com",
-              password: "Admin@4321",
-              role: "SUPER_ADMIN",
-            },
-            {
-              id: "demo-admin-legacy",
-              name: "Sandbox Super Admin",
-              email: "admin@sandbox.bd",
-              password: "sandbox-admin-2026",
-              role: "SUPER_ADMIN",
-            },
-          ] as const;
-
-          const matchedAdmin = fallbackAdmins.find(
-            (admin) =>
-              admin.email === parsed.data.email &&
-              admin.password === parsed.data.password,
-          );
-
-          if (matchedAdmin) {
-            return {
-              id: matchedAdmin.id,
-              name: matchedAdmin.name,
-              email: matchedAdmin.email,
-              role: matchedAdmin.role,
-            };
-          }
-
           return null;
         }
 
