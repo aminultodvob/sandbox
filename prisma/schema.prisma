@@ -1,0 +1,334 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  MANAGER
+}
+
+enum ApplicationStatus {
+  RECEIVED
+  UNDER_REVIEW
+  SHORTLISTED
+  ACCEPTED
+  WAITLISTED
+  DECLINED
+}
+
+enum BusinessStage {
+  IDEA
+  VALIDATION
+  EARLY_REVENUE
+  GROWTH
+  ESTABLISHED
+}
+
+enum BusinessType {
+  SERVICE
+  PRODUCT
+  MANUFACTURING
+  COMMERCE
+  TECHNOLOGY
+  HYBRID
+}
+
+enum InvestmentRange {
+  BELOW_100K
+  BETWEEN_100K_500K
+  BETWEEN_500K_1M
+  BETWEEN_1M_5M
+  ABOVE_5M
+}
+
+enum RevenueRange {
+  PRE_REVENUE
+  BELOW_50K
+  BETWEEN_50K_200K
+  BETWEEN_200K_500K
+  BETWEEN_500K_1M
+  ABOVE_1M
+}
+
+enum EmailTemplateType {
+  APPLICATION_RECEIVED
+  UNDER_REVIEW
+  SHORTLISTED
+  ACCEPTED
+  DECLINED
+  WAITLISTED
+  REMINDER
+  ADMIN_NOTIFICATION
+  CUSTOM
+}
+
+enum EmailLogStatus {
+  DRAFT
+  QUEUED
+  SENT
+  FAILED
+}
+
+enum InquiryStatus {
+  NEW
+  REVIEWED
+  RESPONDED
+  CLOSED
+}
+
+model AdminUser {
+  id             String      @id @default(cuid())
+  name           String
+  email          String      @unique
+  passwordHash   String
+  role           AdminRole   @default(MANAGER)
+  avatarUrl      String?
+  lastLoginAt    DateTime?
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
+  notes          ApplicationNote[]
+  statusUpdates  ApplicationStatusHistory[]
+  auditLogs      AuditLog[]
+}
+
+model Track {
+  id                    String        @id @default(cuid())
+  slug                  String        @unique
+  name                  String
+  shortName             String
+  tagline               String
+  summary               String
+  pricingBdt            Int
+  idealFor              String
+  transformationPromise String
+  outcomes              Json
+  features              Json
+  support               Json
+  selectionPositioning  String
+  highlightPoints       Json
+  order                 Int           @default(0)
+  isActive              Boolean       @default(true)
+  createdAt             DateTime      @default(now())
+  updatedAt             DateTime      @updatedAt
+  applications          Application[]
+  faqs                  FAQ[]
+  testimonials          Testimonial[]
+
+  @@index([order, isActive])
+}
+
+model Applicant {
+  id                   String         @id @default(cuid())
+  fullName             String
+  email                String
+  phone                String
+  city                 String
+  businessName         String
+  industry             String
+  businessStage        BusinessStage
+  businessType         BusinessType
+  yearsOperating       String
+  currentInvestment    InvestmentRange
+  monthlyRevenueRange  RevenueRange?
+  teamSize             String
+  websiteOrSocial      String?
+  businessSummary      String
+  whySandbox           String
+  currentChallenges    String
+  referralSource       String
+  consentAccepted      Boolean
+  createdAt            DateTime       @default(now())
+  updatedAt            DateTime       @updatedAt
+  applications         Application[]
+
+  @@index([fullName])
+  @@index([email])
+  @@index([businessName])
+}
+
+model Application {
+  id                          String                     @id @default(cuid())
+  referenceNumber             String                     @unique
+  applicantId                 String
+  trackId                     String
+  status                      ApplicationStatus          @default(RECEIVED)
+  priority                    Int                        @default(0)
+  currentBusinessScale        String?
+  priorInvestmentAmount       String?
+  meetsEliteThreshold         Boolean?
+  interestedInChinaImmersion  Boolean?
+  sourcingExpansionInterest   String?
+  intakeSnapshot              Json
+  lastContactedAt             DateTime?
+  submittedAt                 DateTime                   @default(now())
+  createdAt                   DateTime                   @default(now())
+  updatedAt                   DateTime                   @updatedAt
+  applicant                   Applicant                  @relation(fields: [applicantId], references: [id], onDelete: Cascade)
+  track                       Track                      @relation(fields: [trackId], references: [id], onDelete: Restrict)
+  notes                       ApplicationNote[]
+  statusHistory               ApplicationStatusHistory[]
+  emailLogs                   EmailLog[]
+  cohortAssignments           CohortApplication[]
+
+  @@index([status, submittedAt])
+  @@index([trackId, status])
+  @@index([applicantId])
+}
+
+model ApplicationNote {
+  id            String      @id @default(cuid())
+  applicationId String
+  authorId      String
+  content       String
+  createdAt     DateTime    @default(now())
+  application   Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  author        AdminUser   @relation(fields: [authorId], references: [id], onDelete: Restrict)
+
+  @@index([applicationId, createdAt])
+}
+
+model ApplicationStatusHistory {
+  id            String            @id @default(cuid())
+  applicationId String
+  changedById   String
+  fromStatus    ApplicationStatus?
+  toStatus      ApplicationStatus
+  message       String?
+  createdAt     DateTime          @default(now())
+  application   Application       @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+  changedBy     AdminUser         @relation(fields: [changedById], references: [id], onDelete: Restrict)
+
+  @@index([applicationId, createdAt])
+}
+
+model Cohort {
+  id             String              @id @default(cuid())
+  name           String
+  seasonLabel    String
+  startDate      DateTime?
+  endDate        DateTime?
+  description    String?
+  createdAt      DateTime            @default(now())
+  updatedAt      DateTime            @updatedAt
+  applications   CohortApplication[]
+}
+
+model CohortApplication {
+  id             String      @id @default(cuid())
+  cohortId       String
+  applicationId  String      @unique
+  assignedAt     DateTime    @default(now())
+  cohort         Cohort      @relation(fields: [cohortId], references: [id], onDelete: Cascade)
+  application    Application @relation(fields: [applicationId], references: [id], onDelete: Cascade)
+
+  @@index([cohortId])
+}
+
+model EmailTemplate {
+  id          String            @id @default(cuid())
+  name        String
+  slug        String            @unique
+  type        EmailTemplateType
+  subject     String
+  previewText String?
+  bodyHtml    String
+  bodyText    String
+  isEnabled   Boolean           @default(true)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  logs        EmailLog[]
+}
+
+model EmailLog {
+  id             String         @id @default(cuid())
+  applicationId  String?
+  templateId     String?
+  recipientEmail String
+  subject        String
+  status         EmailLogStatus @default(QUEUED)
+  providerId     String?
+  errorMessage   String?
+  sentAt         DateTime?
+  createdAt      DateTime       @default(now())
+  application    Application?   @relation(fields: [applicationId], references: [id], onDelete: SetNull)
+  template       EmailTemplate? @relation(fields: [templateId], references: [id], onDelete: SetNull)
+
+  @@index([recipientEmail, createdAt])
+  @@index([status, createdAt])
+}
+
+model SiteSetting {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       Json
+  group       String
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([group])
+}
+
+model FAQ {
+  id        String   @id @default(cuid())
+  question  String
+  answer    String
+  category  String
+  order     Int      @default(0)
+  trackId   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  track     Track?   @relation(fields: [trackId], references: [id], onDelete: SetNull)
+
+  @@index([category, order])
+}
+
+model Testimonial {
+  id         String   @id @default(cuid())
+  name       String
+  role       String
+  company    String
+  quote      String
+  result     String?
+  featured   Boolean  @default(false)
+  order      Int      @default(0)
+  trackId    String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  track      Track?   @relation(fields: [trackId], references: [id], onDelete: SetNull)
+
+  @@index([featured, order])
+}
+
+model ContactInquiry {
+  id            String        @id @default(cuid())
+  fullName      String
+  email         String
+  phone         String?
+  organization  String?
+  message       String
+  status        InquiryStatus @default(NEW)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  @@index([status, createdAt])
+}
+
+model AuditLog {
+  id          String    @id @default(cuid())
+  actorId     String?
+  action      String
+  entityType  String
+  entityId    String
+  description String
+  metadata    Json?
+  createdAt   DateTime  @default(now())
+  actor       AdminUser? @relation(fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([entityType, entityId, createdAt])
+}

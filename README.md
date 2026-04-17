@@ -1,36 +1,117 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Sandbox Bangladesh
 
-## Getting Started
+Premium incubation ecosystem platform for `Sandbox Bangladesh` with a public conversion website, founder access application workflow, transactional email architecture, and a secure internal admin workspace.
 
-First, run the development server:
+## Stack
+
+- Next.js 16 App Router
+- TypeScript
+- Tailwind CSS v4
+- Prisma + Neon Postgres
+- NextAuth credentials auth
+- React Hook Form + Zod
+- Resend-compatible email layer
+- shadcn-style UI primitives + Radix building blocks
+
+## Route Map
+
+- `/`
+- `/about`
+- `/tracks`
+- `/tracks/[slug]`
+- `/apply`
+- `/contact`
+- `/insights`
+- `/events`
+- `/thank-you`
+- `/auth/sign-in`
+- `/admin`
+- `/admin/applications`
+- `/admin/applications/[id]`
+- `/admin/participants`
+- `/admin/communications`
+- `/admin/content`
+- `/admin/settings`
+
+## Data Model
+
+Core Prisma models:
+
+- `AdminUser`
+- `Track`
+- `Applicant`
+- `Application`
+- `ApplicationNote`
+- `ApplicationStatusHistory`
+- `Cohort`
+- `CohortApplication`
+- `EmailTemplate`
+- `EmailLog`
+- `SiteSetting`
+- `FAQ`
+- `Testimonial`
+- `ContactInquiry`
+- `AuditLog`
+
+## Local Setup
+
+1. Install dependencies:
+
+```bash
+npm install
+```
+
+2. Copy `.env.example` to `.env` and set:
+
+```bash
+DATABASE_URL=
+AUTH_SECRET=
+NEXTAUTH_URL=http://localhost:3000
+RESEND_API_KEY=
+RESEND_FROM_EMAIL=
+```
+
+3. Generate Prisma client:
+
+```bash
+npx prisma generate
+```
+
+4. Create and run migrations:
+
+```bash
+npx prisma migrate dev --name init
+```
+
+5. Seed the database:
+
+```bash
+npm run prisma:seed
+```
+
+6. Run the app:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Seeded Admin Access
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- Email: `admin@sandbox.bd`
+- Password: `sandbox-admin-2026`
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+If no database is configured, the same credentials still unlock the demo admin experience through the fallback auth path.
 
-## Learn More
+## Notes
 
-To learn more about Next.js, take a look at the following resources:
+- Public pages are content-rich and brand-aligned around a premium founder ecosystem, not an academic/course brand.
+- The founder application API saves submissions to Prisma when `DATABASE_URL` is available and still returns a polished flow when it is not.
+- Transactional email rendering is configured in `lib/email.tsx`; actual sends occur only when `RESEND_API_KEY` is present.
+- Admin pages currently include working structure, sample analytics fallback, and data hooks ready for deeper CRUD expansion.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Verification
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `npm run build`
+- `npm run lint`
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# sandbox

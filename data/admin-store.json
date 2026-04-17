@@ -1,0 +1,408 @@
+{
+  "applications": [
+    {
+      "id": "app_3mlgjn0e",
+      "referenceNumber": "SBX-152851",
+      "status": "ACCEPTED",
+      "priority": 1,
+      "trackSlug": "early-stage-incubation",
+      "trackName": "Early-Stage Incubation",
+      "submittedAt": "2026-04-17T14:45:52.858Z",
+      "updatedAt": "2026-04-17T14:48:17.972Z",
+      "applicant": {
+        "fullName": "Aminul Islam Roqib",
+        "email": "aminulislamroqib@gmail.com",
+        "phone": "01626180555",
+        "city": "Chittagong",
+        "businessName": "Todvob",
+        "industry": "AI",
+        "businessStage": "IDEA",
+        "businessType": "SERVICE",
+        "yearsOperating": "1",
+        "currentInvestment": "BELOW_100K",
+        "teamSize": "9",
+        "websiteOrSocial": "https://todvob.com/",
+        "businessSummary": "We are a forward-thinking company delivering innovative, technology-driven solutions to help businesses grow, optimize operations, and stay competitive. Our focus is on creating scalable, user-friendly products that solve real-world problems while ensuring efficiency, reliability, and long-term value.",
+        "whySandbox": "I want to join Sandbox to be part of a community that brings together ambitious founders and forward-thinking individuals. Being surrounded by people who are building, experimenting, and solving real-world problems creates an environment where I can both contribute and grow. I’m particularly interested in the opportunity to exchange ideas, gain diverse perspectives, and collaborate on meaningful initiatives. I believe Sandbox will help me sharpen my thinking, expand my network, and accelerate both my personal and entrepreneurial journey.",
+        "currentChallenges": "My current challenges revolve around scaling effectively while maintaining product quality and focus. As I build and grow my venture, balancing product development, user acquisition, and sustainable revenue generation is a constant challenge. Additionally, accessing the right mentorship, strategic partnerships, and a strong network of like-minded builders is crucial at this stage. I’m also focused on refining our go-to-market strategy and ensuring we’re solving the right problems for our users in the most efficient way. Overcoming these challenges will be key to achieving long-term, scalable growth.”",
+        "referralSource": "FB",
+        "consentAccepted": true
+      },
+      "notes": [],
+      "timeline": [
+        {
+          "id": "timeline_vv2p7f1b",
+          "title": "Cohort assigned",
+          "detail": "Assigned to Founder Cohort Alpha (Summer 2026).",
+          "timestamp": "2026-04-17T14:48:17.972Z"
+        },
+        {
+          "id": "timeline_n0ravgxt",
+          "title": "Status updated to ACCEPTED",
+          "detail": "Sandbox Admin changed the application from RECEIVED to ACCEPTED.",
+          "timestamp": "2026-04-17T14:48:10.768Z"
+        },
+        {
+          "id": "timeline_4aiqehz6",
+          "title": "Email sent",
+          "detail": "A manual communication was sent to aminulislamroqib@gmail.com.",
+          "timestamp": "2026-04-17T14:46:59.088Z"
+        },
+        {
+          "id": "timeline_s7mceh0g",
+          "title": "Application received",
+          "detail": "Founder access application submitted and added to the admissions queue.",
+          "timestamp": "2026-04-17T14:45:52.858Z"
+        }
+      ],
+      "emails": [
+        {
+          "id": "email_pcthi653",
+          "subject": "Sandbox Bangladesh follow-up",
+          "recipientEmail": "aminulislamroqib@gmail.com",
+          "body": "Thank you for your continued interest in Sandbox Bangladesh. Our team is reviewing your application and will share next steps shortly.",
+          "status": "SENT",
+          "sentAt": "2026-04-17T14:46:59.088Z"
+        }
+      ],
+      "lastContactedAt": "2026-04-17T14:46:59.088Z",
+      "cohortId": "cohort_1"
+    },
+    {
+      "id": "app_demo_1",
+      "referenceNumber": "SBX-321842",
+      "status": "UNDER_REVIEW",
+      "priority": 1,
+      "trackSlug": "elite-founder-cohort",
+      "trackName": "Elite Founder Cohort",
+      "submittedAt": "2026-04-14T10:42:00.000Z",
+      "updatedAt": "2026-04-14T10:42:00.000Z",
+      "applicant": {
+        "fullName": "Nafisa Rahman",
+        "email": "nafisa@example.com",
+        "phone": "+8801700000001",
+        "businessName": "Delta Furnish",
+        "city": "Dhaka",
+        "industry": "Furniture and sourcing",
+        "businessStage": "GROWTH",
+        "businessType": "COMMERCE",
+        "yearsOperating": "4 years",
+        "currentInvestment": "BETWEEN_1M_5M",
+        "teamSize": "18",
+        "businessSummary": "A growth-stage furniture sourcing business serving corporate and retail buyers.",
+        "whySandbox": "Seeking structured expansion support and investor matchmaking.",
+        "currentChallenges": "Supply chain expansion and operating scale discipline.",
+        "referralSource": "Founder referral",
+        "monthlyRevenueRange": "BETWEEN_200K_500K",
+        "websiteOrSocial": "https://example.com",
+        "consentAccepted": true
+      },
+      "notes": [
+        {
+          "id": "note_xpi7fllt",
+          "authorName": "Admissions Manager",
+          "content": "Strong founder story with clear commercial direction.",
+          "createdAt": "2026-04-14T10:42:00.000Z"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "timeline_k82uq711",
+          "title": "Application received",
+          "detail": "Founder access application submitted and added to the admissions queue.",
+          "timestamp": "2026-04-14T10:42:00.000Z"
+        },
+        {
+          "id": "timeline_6qhzqbbb",
+          "title": "Review initiated",
+          "detail": "Application screened against track fit and founder readiness.",
+          "timestamp": "2026-04-14T10:42:00.000Z"
+        }
+      ],
+      "emails": [
+        {
+          "id": "email_rzit0638",
+          "subject": "Your Sandbox Bangladesh application has been received",
+          "recipientEmail": "nafisa@example.com",
+          "templateSlug": "application-received",
+          "status": "SENT",
+          "sentAt": "2026-04-14T10:42:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "app_demo_2",
+      "referenceNumber": "SBX-318104",
+      "status": "SHORTLISTED",
+      "priority": 2,
+      "trackSlug": "growth-stage-accelerator",
+      "trackName": "Growth-Stage Accelerator",
+      "submittedAt": "2026-04-13T09:10:00.000Z",
+      "updatedAt": "2026-04-13T09:10:00.000Z",
+      "applicant": {
+        "fullName": "Tanvir Hossain",
+        "email": "tanvir@example.com",
+        "phone": "+8801700000002",
+        "businessName": "AgriFlow",
+        "city": "Chattogram",
+        "industry": "Agri-tech",
+        "businessStage": "EARLY_REVENUE",
+        "businessType": "TECHNOLOGY",
+        "yearsOperating": "2 years",
+        "currentInvestment": "BETWEEN_500K_1M",
+        "teamSize": "9",
+        "businessSummary": "An agri-tech venture improving market access for producers and buyers.",
+        "whySandbox": "Needs growth systems and stronger commercialization support.",
+        "currentChallenges": "Sales discipline and channel prioritization.",
+        "referralSource": "LinkedIn",
+        "monthlyRevenueRange": "BETWEEN_200K_500K",
+        "websiteOrSocial": "https://example.com",
+        "consentAccepted": true
+      },
+      "notes": [
+        {
+          "id": "note_07sxl7n7",
+          "authorName": "Admissions Manager",
+          "content": "Strong founder story with clear commercial direction.",
+          "createdAt": "2026-04-13T09:10:00.000Z"
+        }
+      ],
+      "timeline": [
+        {
+          "id": "timeline_ugq753kl",
+          "title": "Application received",
+          "detail": "Founder access application submitted and added to the admissions queue.",
+          "timestamp": "2026-04-13T09:10:00.000Z"
+        },
+        {
+          "id": "timeline_ne1l50lu",
+          "title": "Review initiated",
+          "detail": "Application screened against track fit and founder readiness.",
+          "timestamp": "2026-04-13T09:10:00.000Z"
+        }
+      ],
+      "emails": [
+        {
+          "id": "email_4z0wcxca",
+          "subject": "Your Sandbox Bangladesh application has been received",
+          "recipientEmail": "tanvir@example.com",
+          "templateSlug": "application-received",
+          "status": "SENT",
+          "sentAt": "2026-04-13T09:10:00.000Z"
+        }
+      ]
+    },
+    {
+      "id": "app_demo_3",
+      "referenceNumber": "SBX-315774",
+      "status": "RECEIVED",
+      "priority": 1,
+      "trackSlug": "early-stage-incubation",
+      "trackName": "Early-Stage Incubation",
+      "submittedAt": "2026-04-12T08:00:00.000Z",
+      "updatedAt": "2026-04-12T08:00:00.000Z",
+      "applicant": {
+        "fullName": "Sadia Anjum",
+        "email": "sadia@example.com",
+        "phone": "+8801700000003",
+        "businessName": "MangoLab",
+        "city": "Khulna",
+        "industry": "Consumer brand",
+        "businessStage": "VALIDATION",
+        "businessType": "PRODUCT",
+        "yearsOperating": "8 months",
+        "currentInvestment": "BETWEEN_100K_500K",
+        "teamSize": "4",
+        "businessSummary": "A packaged food brand validating demand through direct and retail pilots.",
+        "whySandbox": "Wants sharper venture positioning and launch structure.",
+        "currentChallenges": "Brand clarity and distribution readiness.",
+        "referralSource": "Instagram",
+        "monthlyRevenueRange": "BETWEEN_200K_500K",
+        "websiteOrSocial": "https://example.com",
+        "consentAccepted": true
+      },
+      "notes": [],
+      "timeline": [
+        {
+          "id": "timeline_57fjarlo",
+          "title": "Application received",
+          "detail": "Founder access application submitted and added to the admissions queue.",
+          "timestamp": "2026-04-12T08:00:00.000Z"
+        },
+        {
+          "id": "timeline_ifuuol2e",
+          "title": "Review initiated",
+          "detail": "Application screened against track fit and founder readiness.",
+          "timestamp": "2026-04-12T08:00:00.000Z"
+        }
+      ],
+      "emails": [
+        {
+          "id": "email_pyj5nmf4",
+          "subject": "Your Sandbox Bangladesh application has been received",
+          "recipientEmail": "sadia@example.com",
+          "templateSlug": "application-received",
+          "status": "SENT",
+          "sentAt": "2026-04-12T08:00:00.000Z"
+        }
+      ]
+    }
+  ],
+  "contactInquiries": [],
+  "emailTemplates": [
+    {
+      "id": "tpl_received",
+      "slug": "application-received",
+      "name": "Application received",
+      "subject": "Your Sandbox Bangladesh application has been received",
+      "previewText": "We have received your participation request.",
+      "body": "Your application has been received and is now in our review queue.",
+      "enabled": true
+    },
+    {
+      "id": "tpl_review",
+      "slug": "under-review",
+      "name": "Under review",
+      "subject": "Your application is now under review",
+      "previewText": "Our admissions team is reviewing your submission.",
+      "body": "Your participation request is now under review by our admissions team.",
+      "enabled": true
+    },
+    {
+      "id": "tpl_shortlisted",
+      "slug": "shortlisted",
+      "name": "Shortlisted",
+      "subject": "Your application has been shortlisted",
+      "previewText": "You have advanced to the next review stage.",
+      "body": "Your application has been shortlisted. Our team will contact you regarding next steps shortly.",
+      "enabled": true
+    },
+    {
+      "id": "tpl_accepted",
+      "slug": "accepted",
+      "name": "Accepted",
+      "subject": "Your Sandbox participation request has been accepted",
+      "previewText": "Welcome to the next stage with Sandbox Bangladesh.",
+      "body": "We are pleased to confirm that your participation request has been accepted.",
+      "enabled": true
+    }
+  ],
+  "cohorts": [
+    {
+      "id": "cohort_1",
+      "name": "Founder Cohort Alpha",
+      "seasonLabel": "Summer 2026"
+    },
+    {
+      "id": "cohort_2",
+      "name": "Growth Cohort Beta",
+      "seasonLabel": "Autumn 2026"
+    }
+  ],
+  "siteContent": {
+    "hero": {
+      "eyebrow": "Founder-focused incubation ecosystem",
+      "title": "Build → Launch → Scale → Sustain",
+      "description": "A premium business incubation ecosystem helping founders move with structure, strategic support, and investor-facing momentum.",
+      "primaryCta": "Apply for Access",
+      "secondaryCta": "Explore the Tracks"
+    },
+    "trackPricing": [
+      {
+        "trackSlug": "early-stage-incubation",
+        "trackName": "Early-Stage Incubation",
+        "pricingBdt": 25000,
+        "highlight": "Foundational Track"
+      },
+      {
+        "trackSlug": "growth-stage-accelerator",
+        "trackName": "Growth-Stage Accelerator",
+        "pricingBdt": 30000,
+        "highlight": "Momentum Track"
+      },
+      {
+        "trackSlug": "elite-founder-cohort",
+        "trackName": "Elite Founder Cohort",
+        "pricingBdt": 150000,
+        "highlight": "Selective Premium Track"
+      }
+    ],
+    "contact": {
+      "email": "hello@sandbox.bd",
+      "phone": "+8801616843188",
+      "location": "Sandbox Technology Park, Agrabad, Chattogram"
+    },
+    "faqs": [
+      {
+        "id": "faq_1",
+        "question": "What does Sandbox Bangladesh actually do?",
+        "answer": "Sandbox Bangladesh is a premium incubation ecosystem that supports founders through structured business building, acceleration, and selective cohort-based growth.",
+        "category": "general"
+      },
+      {
+        "id": "faq_2",
+        "question": "Can I apply if I am still early in my business journey?",
+        "answer": "Yes. The Early-Stage Incubation track is specifically structured for founders who need foundation, clarity, and strategic support.",
+        "category": "general"
+      },
+      {
+        "id": "faq_3",
+        "question": "How does investor matchmaking work?",
+        "answer": "Investor matchmaking opportunity is available across all tracks, but introductions depend on business readiness, relevance, and internal review.",
+        "category": "general"
+      },
+      {
+        "id": "faq_4",
+        "question": "Who should consider the Elite Founder Cohort?",
+        "answer": "Matured entrepreneurs who have already invested at least 5 lakh BDT into their business and want premium strategic support should consider that track.",
+        "category": "general"
+      }
+    ],
+    "testimonials": [
+      {
+        "id": "testimonial_1",
+        "name": "Founder Story Placeholder",
+        "role": "Growth-stage operator",
+        "company": "Brand story architecture",
+        "quote": "Sandbox helped convert scattered effort into a sharper business direction with stronger decision confidence."
+      },
+      {
+        "id": "testimonial_2",
+        "name": "Investor Readiness Placeholder",
+        "role": "Early-stage founder",
+        "company": "Future success narrative",
+        "quote": "The process felt serious, strategic, and founder-focused from the first interaction through the review cycle."
+      }
+    ]
+  },
+  "settings": {
+    "branding": {
+      "companyName": "Sandbox Bangladesh",
+      "supportEmail": "hello@sandbox.bd",
+      "supportPhone": "+8801616843188",
+      "location": "Sandbox Technology Park, Agrabad, Chattogram"
+    },
+    "statuses": [
+      "RECEIVED",
+      "UNDER_REVIEW",
+      "SHORTLISTED",
+      "ACCEPTED",
+      "WAITLISTED",
+      "DECLINED"
+    ],
+    "admins": [
+      {
+        "id": "admin_demo",
+        "name": "Sandbox Super Admin",
+        "email": "admin@sandbox.bd",
+        "role": "SUPER_ADMIN"
+      },
+      {
+        "id": "manager_demo",
+        "name": "Admissions Manager",
+        "email": "manager@sandbox.bd",
+        "role": "MANAGER"
+      }
+    ]
+  }
+}
