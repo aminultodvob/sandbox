@@ -120,41 +120,53 @@ export function ApplicationDetailClient({ initialApplication }: { initialApplica
   }
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[1.15fr_0.85fr]">
+    <div className="grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
       <Card>
         <CardContent className="space-y-5">
-          <div className="flex items-center justify-between">
-            <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent)]">Applicant profile</p>
-            <StatusBadge status={application.status} />
+          <div className="space-y-4">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-xs uppercase tracking-[0.24em] text-[var(--accent)]">
+                  Applicant profile
+                </p>
+                <h2 className="mt-2 text-2xl font-semibold text-[var(--foreground)]">
+                  {application.applicant.fullName}
+                </h2>
+              </div>
+              <StatusBadge status={application.status} />
+            </div>
+            <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+              {["UNDER_REVIEW", "SHORTLISTED", "ACCEPTED", "WAITLISTED", "DECLINED"].map((status) => (
+                <button
+                  key={status}
+                  type="button"
+                  onClick={() => updateStatus(status)}
+                  className="rounded-2xl border border-[var(--border)] bg-[var(--surface-2)] px-4 py-3 text-left text-sm font-semibold text-[var(--foreground)]"
+                  disabled={isPending}
+                >
+                  {status.replaceAll("_", " ")}
+                </button>
+              ))}
+            </div>
           </div>
-          <div className="grid gap-5 md:grid-cols-2">
+
+          <div className="grid gap-4 md:grid-cols-2">
             <Info label="Reference" value={application.referenceNumber} />
             <Info label="Track" value={trackLabel} />
-            <Info label="Founder" value={application.applicant.fullName} />
             <Info label="Email" value={application.applicant.email} />
             <Info label="Phone" value={application.applicant.phone} />
             <Info label="Business" value={application.applicant.businessName} />
             <Info label="Location" value={application.applicant.city} />
             <Info label="Industry" value={application.applicant.industry ?? "Not specified"} />
+            <Info label="Team size" value={application.applicant.teamSize ?? "Not specified"} />
           </div>
-          <div className="grid gap-4 md:grid-cols-3">
-            {["UNDER_REVIEW", "SHORTLISTED", "ACCEPTED", "WAITLISTED", "DECLINED"].map((status) => (
-              <button
-                key={status}
-                type="button"
-                onClick={() => updateStatus(status)}
-                className="rounded-2xl border border-[var(--border)] bg-[var(--surface-2)] px-4 py-3 text-sm font-semibold text-[var(--foreground)]"
-                disabled={isPending}
-              >
-                Mark {status.replaceAll("_", " ")}
-              </button>
-            ))}
-          </div>
+
           <div className="grid gap-4 md:grid-cols-3">
             <Info label="Business stage" value={application.applicant.businessStage ?? "Not specified"} />
             <Info label="Business type" value={application.applicant.businessType ?? "Not specified"} />
             <Info label="Years operating" value={application.applicant.yearsOperating ?? "Not specified"} />
           </div>
+
           <div className="space-y-4">
             <LongText label="Business summary" value={application.applicant.businessSummary ?? "Not provided"} />
             <LongText label="Why Sandbox" value={application.applicant.whySandbox ?? "Not provided"} />
@@ -162,10 +174,11 @@ export function ApplicationDetailClient({ initialApplication }: { initialApplica
           </div>
         </CardContent>
       </Card>
+
       <div className="space-y-6">
         <Card>
           <CardContent className="space-y-4">
-            <h2 className="text-3xl font-semibold text-[var(--foreground)]">Timeline</h2>
+            <h2 className="text-2xl font-semibold text-[var(--foreground)]">Timeline</h2>
             {(application.timeline ?? []).map((item) => (
               <div key={item.id} className="rounded-[22px] border border-[var(--border)] bg-[var(--surface-2)] p-4">
                 <p className="font-semibold text-[var(--foreground)]">{item.title}</p>
@@ -177,9 +190,13 @@ export function ApplicationDetailClient({ initialApplication }: { initialApplica
             ))}
           </CardContent>
         </Card>
+
         <Card>
           <CardContent className="space-y-4">
-            <h2 className="text-3xl font-semibold text-[var(--foreground)]">Internal notes</h2>
+            <div className="flex items-center justify-between gap-3">
+              <h2 className="text-2xl font-semibold text-[var(--foreground)]">Internal notes</h2>
+              <p className="text-xs uppercase tracking-[0.18em] text-[var(--muted)]">Private</p>
+            </div>
             <Textarea
               value={note}
               onChange={(event) => setNote(event.target.value)}
@@ -193,16 +210,17 @@ export function ApplicationDetailClient({ initialApplication }: { initialApplica
                 <div key={item.id} className="rounded-[22px] border border-[var(--border)] bg-[var(--surface-2)] p-4">
                   <p className="text-sm leading-7 text-[var(--foreground)]">{item.content}</p>
                   <p className="mt-2 text-xs uppercase tracking-[0.18em] text-[var(--muted)]">
-                    {(item.author?.name ?? item.authorName ?? "Sandbox Admin")} · {new Date(item.createdAt).toLocaleString()}
+                    {(item.author?.name ?? item.authorName ?? "Sandbox Admin")} / {new Date(item.createdAt).toLocaleString()}
                   </p>
                 </div>
               ))}
             </div>
           </CardContent>
         </Card>
+
         <Card>
           <CardContent className="space-y-4">
-            <h2 className="text-3xl font-semibold text-[var(--foreground)]">Quick communication</h2>
+            <h2 className="text-2xl font-semibold text-[var(--foreground)]">Quick communication</h2>
             <input
               className="field-select"
               value={emailSubject}

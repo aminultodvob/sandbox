@@ -47,7 +47,10 @@ export function CommunicationsCenter({
     <div className="grid gap-6 xl:grid-cols-[1.05fr_0.95fr]">
       <Card>
         <CardContent className="space-y-4">
-          <h2 className="text-3xl font-semibold text-[var(--foreground)]">Template manager</h2>
+          <h2 className="text-2xl font-semibold text-[var(--foreground)]">Template manager</h2>
+          <p className="text-sm leading-7 text-[var(--muted-strong)]">
+            Pick a workflow email, edit the content, and save changes without leaving the page.
+          </p>
           <select
             className="field-select"
             value={selected.id}
@@ -90,13 +93,13 @@ export function CommunicationsCenter({
       </Card>
       <Card>
         <CardContent className="space-y-4">
-          <h2 className="text-3xl font-semibold text-[var(--foreground)]">Recent delivery log</h2>
+          <h2 className="text-2xl font-semibold text-[var(--foreground)]">Recent delivery log</h2>
           {recentEmails.length ? (
             recentEmails.map((item) => (
               <div key={item.id} className="rounded-[22px] border border-[var(--border)] bg-[var(--surface-2)] p-4">
                 <p className="font-semibold text-[var(--foreground)]">{item.subject}</p>
                 <p className="text-sm text-[var(--muted-strong)]">
-                  {item.applicantName ? `${item.applicantName} · ` : ""}
+                  {item.applicantName ? `${item.applicantName} / ` : ""}
                   {item.recipientEmail}
                 </p>
                 <p className="mt-2 text-xs uppercase tracking-[0.18em] text-[var(--muted)]">

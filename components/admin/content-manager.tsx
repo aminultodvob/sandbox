@@ -57,7 +57,12 @@ export function ContentManager({ initialContent }: { initialContent: ContentData
     <div className="grid gap-6">
       <Card>
         <CardContent className="space-y-4">
-          <h2 className="text-3xl font-semibold text-[var(--foreground)]">Homepage hero</h2>
+          <div className="space-y-2">
+            <h2 className="text-2xl font-semibold text-[var(--foreground)]">Homepage hero</h2>
+            <p className="text-sm leading-7 text-[var(--muted-strong)]">
+              Update the first message founders see when they land on the site.
+            </p>
+          </div>
           <input
             className="field-select"
             value={content.hero.eyebrow}
@@ -83,9 +88,12 @@ export function ContentManager({ initialContent }: { initialContent: ContentData
       <div className="grid gap-6 lg:grid-cols-2">
         <Card>
           <CardContent className="space-y-4">
-            <h2 className="text-3xl font-semibold text-[var(--foreground)]">Track pricing</h2>
+            <h2 className="text-2xl font-semibold text-[var(--foreground)]">Track pricing</h2>
             {content.trackPricing.map((track, index) => (
-              <div key={track.trackSlug} className="space-y-3 rounded-[22px] border border-[var(--border)] bg-[var(--surface-2)] p-4">
+              <div
+                key={track.trackSlug}
+                className="space-y-3 rounded-[22px] border border-[var(--border)] bg-[var(--surface-2)] p-4"
+              >
                 <p className="font-semibold text-[var(--foreground)]">{track.trackName}</p>
                 <input
                   className="field-select"
@@ -111,7 +119,7 @@ export function ContentManager({ initialContent }: { initialContent: ContentData
         </Card>
         <Card>
           <CardContent className="space-y-4">
-            <h2 className="text-3xl font-semibold text-[var(--foreground)]">Contact information</h2>
+            <h2 className="text-2xl font-semibold text-[var(--foreground)]">Contact information</h2>
             <input
               className="field-select"
               value={content.contact.email}
@@ -135,7 +143,7 @@ export function ContentManager({ initialContent }: { initialContent: ContentData
           </CardContent>
         </Card>
       </div>
-      <Button onClick={saveContent} disabled={isPending} className="w-fit">
+      <Button onClick={saveContent} disabled={isPending} className="w-full sm:w-fit">
         Save content
       </Button>
     </div>

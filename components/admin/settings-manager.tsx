@@ -38,7 +38,14 @@ export function SettingsManager({ initialSettings }: { initialSettings: Settings
     <div className="grid gap-6 lg:grid-cols-2">
       <Card>
         <CardContent className="space-y-4">
-          <h2 className="text-3xl font-semibold text-[var(--foreground)]">Brand and support settings</h2>
+          <div className="space-y-2">
+            <h2 className="text-2xl font-semibold text-[var(--foreground)]">
+              Brand and support settings
+            </h2>
+            <p className="text-sm leading-7 text-[var(--muted-strong)]">
+              Keep the core admin and public-facing contact details aligned from one place.
+            </p>
+          </div>
           <input
             className="field-select"
             value={settings.branding.companyName}
@@ -79,19 +86,22 @@ export function SettingsManager({ initialSettings }: { initialSettings: Settings
               })
             }
           />
-          <Button onClick={saveSettings} disabled={isPending}>
+          <Button onClick={saveSettings} disabled={isPending} className="w-full sm:w-fit">
             Save settings
           </Button>
         </CardContent>
       </Card>
       <Card>
         <CardContent className="space-y-4">
-          <h2 className="text-3xl font-semibold text-[var(--foreground)]">Admin users</h2>
+          <h2 className="text-2xl font-semibold text-[var(--foreground)]">Admin users</h2>
           {settings.admins.map((admin) => (
-            <div key={admin.id} className="rounded-[22px] border border-[var(--border)] bg-[var(--surface-2)] p-4">
+            <div
+              key={admin.id}
+              className="rounded-[22px] border border-[var(--border)] bg-[var(--surface-2)] p-4"
+            >
               <p className="font-semibold text-[var(--foreground)]">{admin.name}</p>
               <p className="text-sm text-[var(--muted-strong)]">
-                {admin.email} · {admin.role}
+                {admin.email} / {admin.role}
               </p>
             </div>
           ))}
