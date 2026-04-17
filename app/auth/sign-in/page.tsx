@@ -1,16 +1,27 @@
+import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
-import { auth, signIn } from "@/auth";
+import { signIn } from "@/auth";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
-export default async function SignInPage() {
-  const session = await auth();
-
-  if (session) {
-    redirect("/admin");
+function getErrorMessage(error?: string) {
+  switch (error) {
+    case "CredentialsSignin":
+      return "Invalid email or password.";
+    default:
+      return error ? "Unable to sign in right now." : null;
   }
+}
+
+export default async function SignInPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ callbackUrl?: string; error?: string }>;
+}) {
+  const { callbackUrl, error } = await searchParams;
+  const errorMessage = getErrorMessage(error);
 
   return (
     <main className="flex min-h-screen items-center justify-center px-4 py-16">
@@ -23,14 +34,31 @@ export default async function SignInPage() {
           <form
             action={async (formData) => {
               "use server";
-              await signIn("credentials", {
-                email: formData.get("email"),
-                password: formData.get("password"),
-                redirectTo: "/admin",
-              });
+
+              try {
+                await signIn("credentials", {
+                  email: formData.get("email"),
+                  password: formData.get("password"),
+                  redirectTo:
+                    (formData.get("callbackUrl") as string | null) || "/admin",
+                });
+              } catch (error) {
+                if (error instanceof AuthError) {
+                  redirect(
+                    `/auth/sign-in?error=${encodeURIComponent(error.type)}${
+                      formData.get("callbackUrl")
+                        ? `&callbackUrl=${encodeURIComponent(formData.get("callbackUrl") as string)}`
+                        : ""
+                    }`,
+                  );
+                }
+
+                throw error;
+              }
             }}
             className="space-y-5"
           >
+            <input type="hidden" name="callbackUrl" value={callbackUrl ?? "/admin"} />
             <div>
               <Label>Email</Label>
               <Input name="email" type="email" required />
@@ -39,12 +67,14 @@ export default async function SignInPage() {
               <Label>Password</Label>
               <Input name="password" type="password" required />
             </div>
+            {errorMessage ? <p className="text-sm text-rose-600">{errorMessage}</p> : null}
             <Button type="submit" className="w-full">
               Sign in
             </Button>
           </form>
           <p className="text-sm leading-7 text-[var(--muted-strong)]">
-            Seed admin credentials are included in the README for local setup.
+            Use a seeded database admin in production. Development fallback credentials work only
+            locally.
           </p>
         </CardContent>
       </Card>

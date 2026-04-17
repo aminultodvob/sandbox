@@ -155,6 +155,7 @@ export default function HomePage() {
               badge="Access workflow"
               title="A calm, credible admission process that respects founder decisions."
               description="The conversion journey is intentionally structured to build confidence, reduce ambiguity, and keep the experience premium from first touch to internal review."
+              variant="inverted"
             />
             <div className="space-y-4">
               {[
